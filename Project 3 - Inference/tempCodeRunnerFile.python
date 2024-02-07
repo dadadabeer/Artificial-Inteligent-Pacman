@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Function to transform a uniform random number to Pareto
+def inverse_pareto(u, a):
+    return (1 / (1 - u))**(1 / a)
+
+# Parameters
+a_values = [1/2, 2, 10]
+n = 10000  # Number of samples
+
+# Plot setup
+fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+
+# Generate and plot the histograms
+for i, a in enumerate(a_values):
+    # Generate uniform random numbers
+    u = np.random.uniform(0, 1, n)
+    # Transform to Pareto distributed numbers using the inverse CDF
+    pareto_samples = inverse_pareto(u, a)
+    # Plot histogram
+    axs[i].hist(pareto_samples, bins=50, color='blue', alpha=0.7)
+    axs[i].set_title(f'Pareto Distribution (a={a})')
+    axs[i].set_xlim(1, 10 if a == 1/2 else 5)  # Limit x-axis for better visualization
+
+# Show the plots
+plt.tight_layout()
+plt.show()
